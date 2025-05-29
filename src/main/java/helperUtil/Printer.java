@@ -26,11 +26,11 @@ public class Printer<T> {
             }
             loopCount++;
         }
-        System.out.println( !includeBracket ? printer : "{ " + printer + " }");
+        System.out.println(!includeBracket ? printer : "{ " + printer + " }");
     }
 
     public static <TYPE> void printer(Collection<TYPE> collection, String delimiter, String message) {
-       printer(collection, delimiter, message, false);
+        printer(collection, delimiter, message, false);
     }
 
     public static void printAsArray(int[] a) {
@@ -41,6 +41,11 @@ public class Printer<T> {
         }
         output.append(" ]");
         System.out.println(output);
+    }
+
+    public static void printAsArray(String msg, int[] a) {
+        System.out.println(msg);
+        printAsArray(a);
     }
 
     public static void printAsArray(double[] a) {
