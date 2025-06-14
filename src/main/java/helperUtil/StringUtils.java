@@ -1,0 +1,37 @@
+package helperUtil;
+
+public class StringUtils {
+
+    public static String EMPTY = "";
+
+    public static String toUpperCase(String str) {
+        return str == null ? EMPTY : str.toUpperCase();
+    }
+
+    public static boolean equalIgnoreCase(String str1, String str2) {
+        return toUpperCase(str1).equals(toUpperCase(str2));
+    }
+
+    public static String fromCharToString(char ch) {
+        return ch + EMPTY;
+    }
+
+    public static String notIntersectLetters(String str1, String str2) {
+        StringBuilder s1 = new StringBuilder(str1);
+        StringBuilder s2 = new StringBuilder(str2);
+        replaceToEmpty(str1, s2);
+        replaceToEmpty(str2, s1);
+        return s1.append(s2).toString();
+    }
+
+    private static void replaceToEmpty(String str, StringBuilder sb) {
+        for (int i = 0; i < str.length(); i++) {
+            String ch = fromCharToString(str.charAt(i));
+            int index = sb.indexOf(ch);
+            if (index > -1) {
+                sb.replace(index, index + 1, EMPTY);
+            }
+        }
+    }
+
+}
