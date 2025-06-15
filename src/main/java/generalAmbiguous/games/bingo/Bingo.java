@@ -22,6 +22,9 @@ public class Bingo {
     private static boolean logger = false;
 
     @Setter
+    private boolean isComputer;
+
+    @Setter
     private int totalRowAndColumCrossed = 0;
 
     public Bingo() {
@@ -30,6 +33,11 @@ public class Bingo {
         IntStream.rangeClosed(1, size).forEach(i -> range[i - 1] = i);
         shuffleArray(range);
         setBingoArray(range);
+    }
+
+    public Bingo(boolean isComputer) {
+        this();
+        this.setComputer(isComputer);
     }
 
     public Bingo(Integer[] range) {
@@ -128,6 +136,21 @@ public class Bingo {
     public void displayBingo() {
         bingo.forEach(System.out::println);
         logInfo("Bingo State: " + getBingoState());
+    }
+
+    public int getNextCrossValue() {
+        if (!isComputer) {
+            return -1;
+        }
+        for (List<BingoInner> listBI : bingo) {
+            for (BingoInner bi : listBI) {
+                if (bi.isCrossed) {
+                    continue;
+                }
+                return bi.value;
+            }
+        }
+        return -1;
     }
 
     @Getter
