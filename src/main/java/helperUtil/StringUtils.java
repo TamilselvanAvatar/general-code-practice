@@ -1,8 +1,12 @@
 package helperUtil;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 public class StringUtils {
 
     public static String EMPTY = "";
+    public static String BLANK = " ";
 
     public static String toUpperCase(String str) {
         return str == null ? EMPTY : str.toUpperCase();
@@ -14,6 +18,10 @@ public class StringUtils {
 
     public static String fromCharToString(char ch) {
         return ch + EMPTY;
+    }
+
+    public static Stream<String> toStream(String[] str) {
+        return Arrays.stream(str);
     }
 
     public static String notIntersectLetters(String str1, String str2) {
