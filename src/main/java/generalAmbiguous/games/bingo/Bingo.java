@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static generalAmbiguous.ShuffleArray.shuffleArray;
+import static helperUtil.GeneralUtils.sumOfXNaturalNumber;
 import static helperUtil.StringUtils.BLANK;
 import static helperUtil.StringUtils.EMPTY;
 
@@ -17,6 +17,7 @@ public class Bingo {
     private final static int BINGO_SIZE = 5;
     private final static StringBuilder BINGO = new StringBuilder("BINGO");
     private final List<List<BingoInner>> bingo = new ArrayList<>();
+    private final List<Position> positions = new ArrayList<>();
 
     @Setter
     private static boolean logger = false;
@@ -26,6 +27,8 @@ public class Bingo {
 
     @Setter
     private int totalRowAndColumCrossed = 0;
+
+    private int isMinimumCrossedReached = 0;
 
     public Bingo() {
         int size = getSquareBingoSize();
@@ -49,19 +52,38 @@ public class Bingo {
         if (range.length != size) {
             throw new RuntimeException("Size Should be " + size);
         }
-        int k = 0;
+        int k = 0, ri = 0, rj = BINGO_SIZE - 1;
         for (int i = 0; i < BINGO_SIZE; i++) {
             List<BingoInner> row = new ArrayList<>();
             for (int j = 0; j < BINGO_SIZE; j++) {
                 BingoInner bingoInner = new BingoInner(range[k++], i, j, false);
                 row.add(bingoInner);
+                if (setComputerGuessCrossPositionAndIsRightDiagonal(i, j, ri, rj)) {
+                    ri++;
+                    rj--;
+                }
             }
             bingo.add(row);
         }
     }
 
+    private boolean setComputerGuessCrossPositionAndIsRightDiagonal(int i, int j, int rightDiagonalRow, int rightDiagonalColumn) {
+        if (i == j || i % 2 == 1 || j == 0) {
+            positions.add(new Position(i, j));
+        }
+        if (rightDiagonalRow == i && rightDiagonalColumn == j) {
+            positions.add(new Position(i, j));
+            return true; // if right diagonal
+        }
+        return false;
+    }
+
     private int getSquareBingoSize() {
         return BINGO_SIZE * BINGO_SIZE;
+    }
+
+    private boolean isEligibleForBingo() {
+        return isMinimumCrossedReached >= sumOfXNaturalNumber(BINGO_SIZE);
     }
 
     private void logInfo(String msg) {
@@ -76,9 +98,14 @@ public class Bingo {
         }
     }
 
-    private boolean isCrossedPosition(int rowPosition, int columnPosition) {
+    private BingoInner getBingoInner(int rowPosition, int columnPosition) {
         List<BingoInner> row = bingo.get(rowPosition);
-        return row != null && row.get(columnPosition).isCrossed;
+        return row.get(columnPosition);
+    }
+
+
+    private boolean isCrossedPosition(int rowPosition, int columnPosition) {
+        return getBingoInner(rowPosition, columnPosition).isCrossed;
     }
 
     public void crossBingo(int element) {
@@ -86,6 +113,7 @@ public class Bingo {
             for (BingoInner bi : listBI) {
                 if (bi.value == element) {
                     bi.setCrossed(true);
+                    ++isMinimumCrossedReached;
                     break;
                 }
             }
@@ -93,6 +121,9 @@ public class Bingo {
     }
 
     public boolean isBingo() {
+        if (!isEligibleForBingo()) {
+            return false;
+        }
         setTotalRowAndColumCrossed(0);
         int ri = 0, rj = (BINGO_SIZE - 1);
         boolean isRightDiagonalCrossed = true;
@@ -142,6 +173,18 @@ public class Bingo {
         if (!isComputer) {
             return -1;
         }
+        logInfo("Positions " + positions);
+        Iterator<Position> positionIterator = positions.iterator();
+        while (positionIterator.hasNext()) {
+            Position position = positionIterator.next();
+            BingoInner bingoInner = getBingoInner(position.getX(), position.y);
+            if (bingoInner.isCrossed) {
+                positionIterator.remove();
+                continue;
+            }
+            positionIterator.remove();
+            return bingoInner.value;
+        }
         for (List<BingoInner> listBI : bingo) {
             for (BingoInner bi : listBI) {
                 if (bi.isCrossed) {
@@ -155,17 +198,33 @@ public class Bingo {
 
     @Getter
     @Setter
-    @AllArgsConstructor
-    public static class BingoInner {
+    public static class BingoInner extends Position {
         private int value;
-        private int x;
-        private int y;
         private boolean isCrossed;
+
+        public BingoInner(int value, int x, int y, boolean isCrossed) {
+            super(x, y);
+            this.value = value;
+            this.isCrossed = isCrossed;
+        }
 
         @Override
         public String toString() {
             return String.format("%2d: %s", value, (isCrossed ? "X" : BLANK));
             // return String.format("%d%d %2d: %s", x, y, value, (isCrossed ? "X" : BLANK));
+        }
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class Position {
+        private int x;
+        private int y;
+
+        @Override
+        public String toString() {
+            return String.format("%s%s", x, y);
         }
     }
 

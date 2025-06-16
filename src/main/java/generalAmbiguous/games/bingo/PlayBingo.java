@@ -1,15 +1,10 @@
 package generalAmbiguous.games.bingo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static helperUtil.StringUtils.EMPTY;
-import static helperUtil.StringUtils.equalIgnoreCase;
-import static helperUtil.StringUtils.toStream;
+import static generalAmbiguous.ShuffleArray.shuffleArray;
+import static helperUtil.StringUtils.*;
 
 public class PlayBingo {
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -29,7 +24,9 @@ public class PlayBingo {
         AtomicBoolean isBingo = new AtomicBoolean(true);
         preSetTheBoard(playerIds, bingoByPlayerId);
         setComputerPlayer(playerIds, bingoByPlayerId);
+        shuffleArray(playerIds);
         while (isBingo.get()) {
+            List<String> bingoReachedPlayers = new ArrayList<>();
             for (String player : playerIds) {
                 System.out.printf("Player %s Turn & Enter Value to Cross:%n", player);
                 int value;
@@ -42,11 +39,13 @@ public class PlayBingo {
                 bingoByPlayerId.forEach((k, v) -> {
                     v.crossBingo(value);
                     if (v.isBingo()) {
-                        System.out.printf("Player %s has won the Bingo (🎉).%n", k);
-                        isBingo.set(false);
+                        bingoReachedPlayers.add(k);
                     }
                 });
-                if (!isBingo.get()) {
+                if (!bingoReachedPlayers.isEmpty()) {
+                    String bingoPlayer = bingoReachedPlayers.contains(player) ? player : bingoReachedPlayers.get(0);
+                    System.out.printf("Player %s has won the Bingo (🎉).%n", bingoPlayer);
+                    isBingo.set(false);
                     break;
                 }
             }

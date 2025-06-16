@@ -2,6 +2,8 @@ package generalAmbiguous;
 
 import helperUtil.Printer;
 
+import java.util.List;
+
 /**
  * Shuffle the elements in the random order for the given int array
  */
@@ -21,6 +23,16 @@ public class ShuffleArray {
             T temp = arr[j];
             arr[j] = arr[i];
             arr[i] = temp; // swap 2 place in the array with random index of array
+        }
+    }
+
+    public static <T> void shuffleArray(List<T> list) {
+        int len = list.size();
+        for (int i = 0; i < len; i++) {
+            int j = giveRandomIndex(len - 1);
+            T temp = list.get(j);
+            list.set(j, list.get(i));
+            list.set(i, temp); // swap 2 place in the array with random index of array
         }
     }
 
