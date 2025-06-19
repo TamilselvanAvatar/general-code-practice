@@ -19,6 +19,10 @@ public class Bingo {
     private final List<List<BingoInner>> bingo = new ArrayList<>();
     private final List<Position> positions = new ArrayList<>();
 
+    private final List<Position> leftDiagonal = new ArrayList<>();
+    private final List<Position> rightDiagonal = new ArrayList<>();
+    private final List<Position> rowsAndColumn = new ArrayList<>();
+
     @Setter
     private static boolean logger = false;
 
@@ -65,17 +69,27 @@ public class Bingo {
             }
             bingo.add(row);
         }
+        setComputerGuessPositions();
     }
 
     private boolean setComputerGuessCrossPositionAndIsRightDiagonal(int i, int j, int rightDiagonalRow, int rightDiagonalColumn) {
-        if (i == j || i % 2 == 1 || j == 0) {
-            positions.add(new Position(i, j));
+        if (i == j) {
+            leftDiagonal.add(new Position(i, j));
+        }
+        if (i % 2 == 1 || j == 0) {
+            rowsAndColumn.add(new Position(i, j));
         }
         if (rightDiagonalRow == i && rightDiagonalColumn == j) {
-            positions.add(new Position(i, j));
+            rightDiagonal.add(new Position(i, j));
             return true; // if right diagonal
         }
         return false;
+    }
+
+    private void setComputerGuessPositions() {
+        positions.addAll(leftDiagonal);
+        positions.addAll(rightDiagonal);
+        positions.addAll(rowsAndColumn);
     }
 
     private int getSquareBingoSize() {
