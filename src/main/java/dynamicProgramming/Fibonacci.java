@@ -1,5 +1,7 @@
 package dynamicProgramming;
 
+import helperUtil.Timer;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,14 +18,21 @@ import java.util.Map;
 
 public class Fibonacci {
     public static void main(String[] args) {
-        int n = 6;
+        Timer timer = new Timer();
+        int n = 50;
+
+        timer.startTimer();
         long ta = traditionalApproach(n);
+        System.out.printf("Traditional Approach F(%d) : %d\tTime Taken To Complete: %d\n", n, ta, timer.stopTimer());
+
         // Dynamic Programming Approach
+        timer.startTimer();
         long tb = topBottomApproach(n);
+        System.out.printf("Dynamic Programming Top-Bottom Approach F(%d) : %d\tTime Taken To Complete: %d\n", n, tb, timer.stopTimer());
+
+        timer.startTimer();
         long bu = bottomUpApproach(n);
-        System.out.printf("Traditional Approach F(%d) : %d\n", n, ta);
-        System.out.printf("Traditional Approach F(%d) : %d\n", n, tb);
-        System.out.printf("Traditional Approach F(%d) : %d\n", n, bu);
+        System.out.printf("Dynamic Programming Bottom-Top Approach F(%d) : %d\tTime Taken To Complete: %d\n", n, bu, timer.stopTimer());
     }
 
     private static long bottomUpApproach(int n) {
@@ -50,7 +59,7 @@ public class Fibonacci {
         if (memo.containsKey(n)) {
             return memo.get(n);
         }
-        long result = traditionalApproach(n - 1) + traditionalApproach(n - 2);
+        long result = topBottomApproach(n - 1) + topBottomApproach(n - 2);
         memo.put(n, result);
         return result;
     }
