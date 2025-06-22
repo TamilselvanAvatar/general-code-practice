@@ -1,10 +1,12 @@
 package generalAmbiguous.games.bingo;
 
-import lombok.AllArgsConstructor;
+import helperUtil.ClassUtils.Position;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import static generalAmbiguous.ShuffleArray.shuffleArray;
@@ -32,7 +34,7 @@ public class Bingo {
     @Setter
     private int totalRowAndColumCrossed = 0;
 
-    private int isMinimumCrossedReached = 0;
+    private int isMinimumCrossReached = 0;
 
     public Bingo() {
         int size = getSquareBingoSize();
@@ -97,7 +99,7 @@ public class Bingo {
     }
 
     private boolean isEligibleForBingo() {
-        return isMinimumCrossedReached >= sumOfXNaturalNumber(BINGO_SIZE);
+        return isMinimumCrossReached >= sumOfXNaturalNumber(BINGO_SIZE);
     }
 
     private void logInfo(String msg) {
@@ -127,7 +129,7 @@ public class Bingo {
             for (BingoInner bi : listBI) {
                 if (bi.value == element) {
                     bi.setCrossed(true);
-                    ++isMinimumCrossedReached;
+                    ++isMinimumCrossReached;
                     break;
                 }
             }
@@ -191,7 +193,7 @@ public class Bingo {
         Iterator<Position> positionIterator = positions.iterator();
         while (positionIterator.hasNext()) {
             Position position = positionIterator.next();
-            BingoInner bingoInner = getBingoInner(position.getX(), position.y);
+            BingoInner bingoInner = getBingoInner(position.getX(), position.getY());
             if (bingoInner.isCrossed) {
                 positionIterator.remove();
                 continue;
@@ -226,19 +228,6 @@ public class Bingo {
         public String toString() {
             return String.format("%2d: %s", value, (isCrossed ? "X" : BLANK));
             // return String.format("%d%d %2d: %s", x, y, value, (isCrossed ? "X" : BLANK));
-        }
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class Position {
-        private int x;
-        private int y;
-
-        @Override
-        public String toString() {
-            return String.format("%s%s", x, y);
         }
     }
 

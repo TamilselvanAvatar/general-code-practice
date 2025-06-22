@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class EmployeeExample {
+public class EmployeeMain {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 

@@ -9,7 +9,6 @@ import static helperUtil.StringUtils.*;
 public class PlayBingo {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final String COMPUTER = "COMPUTER";
-    private static final String YES = "YES";
 
     public static void main(String[] args) {
         System.out.println("Enter Number of Players:");

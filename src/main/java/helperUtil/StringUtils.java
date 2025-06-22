@@ -5,8 +5,9 @@ import java.util.stream.Stream;
 
 public class StringUtils {
 
-    public static String EMPTY = "";
-    public static String BLANK = " ";
+    public static final String EMPTY = "";
+    public static final String BLANK = " ";
+    public static final String YES = "YES";
 
     public static String toUpperCase(String str) {
         return str == null ? EMPTY : str.toUpperCase();
