@@ -17,6 +17,10 @@ public class StringUtils {
         return toUpperCase(str1).equals(toUpperCase(str2));
     }
 
+    public static boolean isEquals(String str1, String str2) {
+        return str2 != null && str2.equals(str1);
+    }
+
     public static String fromCharToString(char ch) {
         return ch + EMPTY;
     }

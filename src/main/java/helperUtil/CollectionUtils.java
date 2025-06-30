@@ -25,4 +25,13 @@ public class CollectionUtils {
         }
         return result;
     }
+
+    public static <T> boolean isNotEmpty(Collection<T> collection) {
+        return !isEmpty(collection);
+    }
+
+    public static <T> boolean isEmpty(Collection<T> collection) {
+        return collection == null || collection.isEmpty();
+    }
+
 }
