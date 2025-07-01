@@ -10,7 +10,7 @@ import static helperUtil.StringUtils.equalIgnoreCase;
 
 @Getter
 @Setter
-public class Card {
+public class Card implements Comparable<Card> {
     private Integer order;
     private String value;
     private CardType type;
@@ -47,7 +47,12 @@ public class Card {
 
     @Override
     public String toString() {
-        return String.format("%s%s", type, value);
+        return String.format("%s%s", this.type, this.value);
+    }
+
+    @Override
+    public int compareTo(Card card) {
+        return card.getOrder().compareTo(this.order); // DESC Order
     }
 
     @Getter

@@ -22,6 +22,7 @@ public class PlayAce {
         initializePlayers(players);
         splitCards(deckOfCards, players);
         // startOfMiddle(players); // to test logic
+        Player.setGameStarted(true);
         startGame(players);
     }
 
@@ -42,13 +43,19 @@ public class PlayAce {
     }
 
     private static void startGame(List<Player> players) {
+        List<Player> copyPlayers = new ArrayList<>(players);
         int startIndex = findIndexOfPlayer(players, Player::getHaveAceSpadeCard);
+        boolean isGameOver = false;
         do {
             boolean isThereCut = false;
             String currentPlayerId = EMPTY;
             List<Player> roundPlayers = new ArrayList<>();
             Stack<Player> playerStack = new Stack<>();
             setPlayers(playerStack, startIndex, players);
+            if (playerStack.stream().filter(Player::isPlayerNotWin).count() == 1) {
+                break;
+            }
+            Card previousCard = null;
             while (!playerStack.isEmpty()) {
                 Player player = playerStack.pop();
                 if (player.isPlayerWin()) {
@@ -59,13 +66,19 @@ public class PlayAce {
                 String choseCard = SCANNER.nextLine();
                 try {
                     player.setCurrentCard(choseCard);
+                    if (player.provideWrongTypeEvenExist(previousCard)) {
+                        System.out.printf("%s Lose Because Provided Wrong Card", player.getName());
+                        isGameOver = true;
+                        break;
+                    }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                     System.out.println("Try Again: ");
                     playerStack.add(player);
                     continue;
                 }
-                if (isMisMatchCardType(roundPlayers, player.getCurrentCard())) {
+                previousCard = player.getCurrentCard();
+                if (isMisMatchCardType(roundPlayers, previousCard)) {
                     roundPlayers.add(player);
                     isThereCut = true;
                     currentPlayerId = player.getId();
@@ -73,11 +86,16 @@ public class PlayAce {
                 }
                 roundPlayers.add(player);
             }
+            if (isGameOver) {
+                break;
+            }
             String id = getMaxCardPlayerIdAndAddOrRemoveCard(players, roundPlayers, isThereCut, currentPlayerId);
             startIndex = findIndexOfPlayer(players, p -> isEquals(id, p.getId()));
-            printer(players, "\n", "Players");
         } while (players.size() != 1);
-        System.out.printf("The Player (%s) lose", players.get(0));
+        printer(copyPlayers, "\n", "Players");
+        if (!isGameOver) {
+            System.out.printf("%s Lose", players.get(0).getName());
+        }
     }
 
     private static String getMaxCardPlayerIdAndAddOrRemoveCard(List<Player> players, List<Player> roundPlayers, boolean isThereCut, String currentPlayerId) {

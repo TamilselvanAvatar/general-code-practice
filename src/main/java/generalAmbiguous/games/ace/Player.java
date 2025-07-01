@@ -15,6 +15,7 @@ import static helperUtil.GeneralUtils.computeIfNull;
 @Setter
 public class Player {
 
+    @Setter
     private static boolean isGameStarted;
 
     private final String id;
@@ -44,11 +45,18 @@ public class Player {
         }
     }
 
+    public boolean provideWrongTypeEvenExist(Card previousCard) {
+        if (previousCard == null) {
+            return false;
+        }
+        return cardByType.containsKey(previousCard.getType()) && currentCard.getType() != previousCard.getType();
+    }
+
     public void addCard(Card card) {
         if (haveAceSpadeCard == null && card.isStartingCard()) {
             haveAceSpadeCard = true;
         }
-        cardByType.computeIfAbsent(card.getType(), (k) -> new TreeSet<>(Comparator.comparing(Card::getOrder))).add(card);
+        cardByType.computeIfAbsent(card.getType(), (k) -> new TreeSet<>()).add(card);
     }
 
     public void addCards(List<Card> cards) {
@@ -77,7 +85,7 @@ public class Player {
     }
 
     public void removeCurrentCard() {
-        if (notToRemoveCurrentCard) {
+        if (notToRemoveCurrentCard || currentCard == null) {
             return;
         }
         removeCard(currentCard);
@@ -86,6 +94,10 @@ public class Player {
 
     public boolean isPlayerWin() {
         return isGameStarted && cardByType.isEmpty();
+    }
+
+    public boolean isPlayerNotWin() {
+        return !isPlayerWin();
     }
 
     @Override
