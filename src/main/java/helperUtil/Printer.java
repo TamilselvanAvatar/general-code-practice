@@ -5,13 +5,34 @@ import java.util.Collection;
 public class Printer<T> {
 
     public void printAsArray(T[] a) {
+        System.out.println(getAsString(a));
+    }
+
+    private StringBuilder getAsString(T[] a){
         int len = a.length;
         StringBuilder output = new StringBuilder("[ ");
         for (int j = 0; j < len; j++) {
             output.append(j == len - 1 ? a[j] : a[j] + ", ");
         }
         output.append(" ]");
-        System.out.println(output);
+        return output;
+    }
+
+    @SafeVarargs
+    public final void printAsArray(String msg, T[]... arr) {
+        String[] msgArr = msg.split(";");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(msgArr[i]);
+            sb.append(getAsString(arr[i]));
+            sb.append("\t");
+        }
+        System.out.println(sb);
+    }
+
+    public void printAsArray(String msg, T[] arr) {
+        System.out.println(msg);
+        printAsArray(arr);
     }
 
     public static <TYPE> void printer(Collection<TYPE> collection, String delimiter, String message, boolean includeBracket) {

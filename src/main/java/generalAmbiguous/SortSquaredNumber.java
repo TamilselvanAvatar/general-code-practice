@@ -1,6 +1,8 @@
 package generalAmbiguous;
 
-import static helperUtil.BubbleSort.sort;
+import helperUtil.Printer;
+import helperUtil.sort.BubbleSort;
+
 import static helperUtil.Printer.printAsArray;
 
 /**
@@ -18,16 +20,17 @@ import static helperUtil.Printer.printAsArray;
 
 public class SortSquaredNumber {
     public static void main(String[] args) {
-        int[] numbs = {-7, -6, -4, 3, 5, 9};
+        Printer<Integer> printer = new Printer<>();
+        Integer[] numbs = {-7, -6, -4, 3, 5, 9};
         int[] res1 = sortAndSquareWithTwoPointer(numbs);
-        int[] res2 = sortAndSquareWithTraditionalLogic(numbs);
+        Integer[] res2 = sortAndSquareWithTraditionalLogic(numbs);
         printAsArray("Sorted Square With Two Pointer ", res1);
-        printAsArray("Sorted Square With Traditional Sort ", res2);
+        printer.printAsArray("Sorted Square With Traditional Sort ", res2);
     }
 
-    private static int[] sortAndSquareWithTraditionalLogic(int[] numbs) {
+    private static Integer[] sortAndSquareWithTraditionalLogic(Integer[] numbs) {
         int len = numbs.length;
-        int[] ans = new int[len];
+        Integer[] ans = new Integer[len];
         int count = 0; // Take Advantage of ASC order
         for (int i = 0; i < len; i++) {
             int value = numbs[i];
@@ -37,11 +40,12 @@ public class SortSquaredNumber {
             int squaredNum = value * value;
             ans[i] = squaredNum;
         }
-        sort(ans, count, (a, b) -> a >= b);
+        BubbleSort<Integer> bubbleSort = new BubbleSort<>();
+        bubbleSort.sort(ans, count, (a, b) -> (a >= b));
         return ans;
     }
 
-    public static int[] sortAndSquareWithTwoPointer(int[] numbs) {
+    public static int[] sortAndSquareWithTwoPointer(Integer[] numbs) {
         int len = numbs.length;
         int l = 0;
         int r = len - 1;
