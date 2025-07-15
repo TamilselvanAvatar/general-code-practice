@@ -8,9 +8,9 @@ import java.util.function.BiFunction;
  * Algorithm: Divide and Conquer the goal
  */
 
-public class MergeSort<T> implements Sorter<T> {
+public class MergeSort implements Sorter {
     @Override
-    public void sort(T[] arr, BiFunction<T, T, Boolean> condition) {
+    public <T> void sort(T[] arr, BiFunction<T, T, Boolean> condition) {
         int size = arr.length;
         if (size == 1) {
             return;
@@ -29,7 +29,7 @@ public class MergeSort<T> implements Sorter<T> {
         mergeSort(arr, left, right, condition);
     }
 
-    private void mergeSort(T[] arr, T[] left, T[] right, BiFunction<T, T, Boolean> condition) {
+    private <T> void mergeSort(T[] arr, T[] left, T[] right, BiFunction<T, T, Boolean> condition) {
         int i = 0, j = 0, k = 0;
         int leftSize = left.length;
         int rightSize = right.length;

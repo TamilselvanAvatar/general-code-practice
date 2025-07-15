@@ -2,8 +2,8 @@ package helperUtil.sort;
 
 import java.util.function.BiFunction;
 
-public class BubbleSort<T> implements Sorter<T> {
-    public void sort(T[] arr, Integer loopCount, BiFunction<T, T, Boolean> condition) {
+public class BubbleSort implements Sorter {
+    public <T> void sort(T[] arr, Integer loopCount, BiFunction<T, T, Boolean> condition) {
         int len = arr.length;
         if (loopCount == null) {
             loopCount = len;
@@ -16,7 +16,7 @@ public class BubbleSort<T> implements Sorter<T> {
     }
 
     @Override
-    public void sort(T[] arr, BiFunction<T, T, Boolean> condition) {
+    public <T> void sort(T[] arr, BiFunction<T, T, Boolean> condition) {
         for (int i = 0; i < arr.length - 1; i++) {
             T a = arr[i];
             T b = arr[i + 1];

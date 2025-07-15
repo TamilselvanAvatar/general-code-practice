@@ -40,7 +40,7 @@ public class SortSquaredNumber {
             int squaredNum = value * value;
             ans[i] = squaredNum;
         }
-        BubbleSort<Integer> bubbleSort = new BubbleSort<>();
+        BubbleSort bubbleSort = new BubbleSort();
         bubbleSort.sort(ans, count, (a, b) -> (a >= b));
         return ans;
     }
