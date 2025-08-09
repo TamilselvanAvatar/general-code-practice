@@ -47,7 +47,7 @@ public class Printer<T> {
             }
             loopCount++;
         }
-        System.out.println(!includeBracket ? printer : "{ " + printer + " }");
+        System.out.println(!includeBracket ? printer : "[ " + printer + " ]");
     }
 
     public static <TYPE> void printer(Collection<TYPE> collection, String delimiter, String message) {
