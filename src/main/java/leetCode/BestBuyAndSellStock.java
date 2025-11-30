@@ -1,5 +1,10 @@
 package leetCode;
 
+/**
+ * Description: <a href="https://leetcode.com/explore/featured/card/top-interview-questions-easy/92/array/564/">Link</a>
+ * <p>Best Buy And Sell Stock</p>
+ */
+
 public class BestBuyAndSellStock {
     public static void main(String[] args) {
         int[] arr = {7, 2, 5, 1, 3, 6, 4};
