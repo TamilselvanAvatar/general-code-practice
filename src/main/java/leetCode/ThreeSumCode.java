@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class threeSumCode {
+public class ThreeSumCode {
 
     private static List<List<Integer>> ans;
 

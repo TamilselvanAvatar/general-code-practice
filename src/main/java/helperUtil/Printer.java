@@ -8,7 +8,7 @@ public class Printer<T> {
         System.out.println(getAsString(a));
     }
 
-    private StringBuilder getAsString(T[] a){
+    private StringBuilder getAsString(T[] a) {
         int len = a.length;
         StringBuilder output = new StringBuilder("[ ");
         for (int j = 0; j < len; j++) {
@@ -55,7 +55,14 @@ public class Printer<T> {
     }
 
     public static void printAsArray(int[] a) {
+        printAsArray(a, a.length);
+    }
+
+    public static void printAsArray(int[] a, int limit) {
         int len = a.length;
+        if (limit <= len) {
+            len = limit;
+        }
         StringBuilder output = new StringBuilder("[ ");
         for (int j = 0; j < len; j++) {
             output.append(j == len - 1 ? a[j] : a[j] + ", ");
