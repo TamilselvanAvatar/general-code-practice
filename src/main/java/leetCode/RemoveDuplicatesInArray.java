@@ -12,11 +12,13 @@ import java.util.ArrayList;
 
 public class RemoveDuplicatesInArray {
     public static void main(String[] args) {
-        int nums[] = {1, 1, 2};
+        int[] nums = {1, 1, 2, 2, 3, 3, 3, 4, 4, 4};
         int k = removeDuplicates(nums);
+        System.out.println("Final Length Using Traditional Way: " + k);
         // int k = removeDuplicatesWithTwoPointer(nums);
-        System.out.println("Final Length: " + k);
+        // System.out.println("Final Length Using Pointer Way: " + k);
         Printer.printAsArray(nums, k);
+        Printer.printAsArray(nums);
     }
 
 
@@ -29,11 +31,9 @@ public class RemoveDuplicatesInArray {
             if (nums[i] != nums[j]) {
                 i++;
                 nums[i] = nums[j];
-                j++;
                 finalLen++;
-            } else {
-                j++;
             }
+            j++;
         }
         return finalLen;
     }
@@ -49,12 +49,8 @@ public class RemoveDuplicatesInArray {
                 list.add(curVal);
             }
         }
-        for (int j = 0; j < len; j++) {
-            if (j <= (list.size() - 1)) {
-                nums[j] = list.get(j);
-            } else {
-                nums[j] = 0;
-            }
+        for (int j = 0; j < list.size(); j++) {
+            nums[j] = list.get(j); // THERE IS NO NEED TO SET ZERO FOR ALL OTHER ELEMENT
         }
         return ans;
     }

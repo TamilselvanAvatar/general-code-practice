@@ -50,6 +50,26 @@ public class ValidSudoku {
         System.out.println(isValidSudoku(SUDOKU_BOARD));
     }
 
+    public static boolean isValidSudokuOptimizedWay(char[][] board) {
+        int row = board.length;
+        int col = board[0].length;
+        // Check Each Rows And Columns are Valid (No Duplicate Number);
+        try {
+            for (int i = 0; i < row; i++) {
+                Set<Character> rowHolder = new HashSet<>();
+                Set<Character> colHolder = new HashSet<>();
+                for (int j = 0; j < col; j++) {
+                    checkIfExist(board[i][j], rowHolder); // row check
+                    checkIfExist(board[j][i], colHolder); // col check
+                    subMatrixCheckIfExist(board, i, j); // Check Each Sub-matrix (3 x 3) are valid (No Duplicate Number);
+                }
+            }
+        } catch (NotValidSudokuException e) {
+            return false;
+        }
+        return true;
+    }
+
     public static boolean isValidSudoku(char[][] board) {
         int row = board.length;
         int col = board[0].length;
@@ -82,6 +102,9 @@ public class ValidSudoku {
     }
 
     public static void subMatrixCheckIfExist(char[][] board, int i, int j) {
+        if (i % subMatrixRow != 0 || j % subMatrixCol != 0) {
+            return;
+        }
         Set<Character> subMatrixHolder = new HashSet<>();
         for (int k = i; k < (subMatrixRow + i); k++) {
             for (int l = j; l < (subMatrixCol + j); l++) {
