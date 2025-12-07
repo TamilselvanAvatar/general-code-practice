@@ -25,6 +25,10 @@ public class StringUtils {
         return ch + EMPTY;
     }
 
+    public static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
+    }
+
     public static Stream<String> toStream(String[] str) {
         return Arrays.stream(str);
     }
