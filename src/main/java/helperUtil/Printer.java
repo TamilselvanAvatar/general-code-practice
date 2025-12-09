@@ -86,6 +86,16 @@ public class Printer<T> {
         System.out.println("}");
     }
 
+    public static void printAsArray(String msg, char[][] arr) {
+        System.out.println(msg);
+        System.out.println("{");
+        for (char[] a : arr) {
+            System.out.print("  ");
+            printAsArray(a);
+        }
+        System.out.println("}");
+    }
+
     public static void printAsArray(double[] a) {
         int len = a.length;
         StringBuilder output = new StringBuilder("[ ");
