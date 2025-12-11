@@ -1,8 +1,6 @@
 package code360;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 import java.util.Queue;
 
 /**
@@ -22,10 +20,14 @@ import java.util.Queue;
 
 public class InterLeaveQueue {
     public static void main(String[] args) {
-        Queue<Integer> q = new PriorityQueue<>();
-        q.addAll(List.of(10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
-        interLeaveQueue(q);
-        System.out.println(q);
+        Queue<Integer> q1 = new PriorityQueue<>();
+        q1.addAll(List.of(10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
+        Queue<Integer> q2 = new PriorityQueue<>();
+        q2.addAll(List.of(10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
+        interLeaveQueue(q1);
+        interLeaveQueueBetterWay(q2);
+        System.out.println(q1);
+        System.out.println(q2);
     }
 
     public static void interLeaveQueue(Queue<Integer> q) {
@@ -48,4 +50,20 @@ public class InterLeaveQueue {
             q.add(lastHalf.get(k));
         }
     }
+
+    public static void interLeaveQueueBetterWay(Queue<Integer> q) {
+        int size = q.size();
+        int i = 0;
+        int j = (size / 2);
+        Queue<Integer> firstHalf = new LinkedList<>();
+        while (i < j) {
+            firstHalf.offer(q.poll());
+            i++;
+        }
+        while (!firstHalf.isEmpty()) {
+            q.offer(firstHalf.poll());
+            q.offer(q.poll());
+        }
+    }
+
 }
