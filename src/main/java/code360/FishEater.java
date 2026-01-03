@@ -44,6 +44,25 @@ public class FishEater {
 */
         fishEaterUsingNormalApproach(fishes);
         fishEaterUsingStack(fishes); //better solution
+        fishEater(fishes); // BETTER SOLUTION
+    }
+
+    public static void fishEater(int[] fishes) {
+        int len = fishes.length;
+        int totalFishAlive = len;
+        int i = 0;
+        int currFish = fishes[0];
+        while (i < len - 1) {
+            i++;
+            int iThFish = fishes[i];
+            if (currFish > iThFish) {
+                totalFishAlive--;
+                continue;
+            }
+            currFish = iThFish;
+        }
+        System.out.println("Alternative Better Approach:");
+        System.out.println("Last Day Number of fish alive: " + totalFishAlive);
     }
 
     public static void fishEaterUsingNormalApproach(int[] fishes) {

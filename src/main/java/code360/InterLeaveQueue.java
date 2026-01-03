@@ -20,10 +20,8 @@ import java.util.Queue;
 
 public class InterLeaveQueue {
     public static void main(String[] args) {
-        Queue<Integer> q1 = new PriorityQueue<>();
-        q1.addAll(List.of(10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
-        Queue<Integer> q2 = new PriorityQueue<>();
-        q2.addAll(List.of(10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
+        Queue<Integer> q1 = new LinkedList<>(List.of(10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
+        Queue<Integer> q2 = new LinkedList<>(List.of(10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
         interLeaveQueue(q1);
         interLeaveQueueBetterWay(q2);
         System.out.println(q1);
